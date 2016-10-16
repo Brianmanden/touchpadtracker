@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>mouse tracking</title>
+	<style>	
+		body{
+			margin: 0;
+			padding: 0;
+			outline: 1px solid green;
+		}
+		#tracker{
+			height: 100vh;
+			width: 100%;
+			outline: 3px solid red;		
+		}
+		
+		#output{
+			font-size: 30px;
+			height: 200px;
+			width: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div id="tracker">
+		<textarea id="output"></textarea>
+	</div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		var serverIP = "192.168.1.122";
+		var serverPort = "3000";
+		var elem = document.getElementById('tracker');
+		var output = document.getElementById('output');
+		var socket = io.connect('http://' + serverIP + ':' + serverPort);
+		
+		elem.addEventListener('touchclick', function(){
+		
+		});
+		
+		elem.addEventListener('touchmove', function(e){
+			e.preventDefault();
+			trackData = {
+				touchX: e.touches[0].pageX,
+				touchY: e.touches[0].pageY
+			};
+			socket.emit('mouseTracked', { trackData: trackData });
+		}, false);
+
+		elem.addEventListener('mousemove', function(eventData){
+			trackData = {
+				mouseX: eventData.pageX,
+				mouseY: eventData.pageY
+			};
+			socket.emit('mouseTracked', { trackData: trackData });
+		}, false);	
+	</script>
+</body>
+</html>
