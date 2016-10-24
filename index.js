@@ -7,15 +7,24 @@
 	app.get('/', function(req, res){
 		res.sendFile(path.join(__dirname + '/views/index.html'));
 	});
+
+	app.get('/log', function(req, res){
+		res.sendFile(path.join(__dirname + '/views/log.html'));
+	});
 	
 	io.on('connection', function(socket){
 		socket.on('mouseTracked', function(data){
-			console.dir(data);
+			//console.dir(data);
+			var res = socket.emit('dataLogged', { hello: 'world'} );
+			console.log(data);
 		});
 	});
 	
-	server.listen(3000, function(){
-		console.log("server running on port: 3000");
+	server.listen(process.env.PORT || 3000, function(){
+		console.log("server IP address: " + server.address());
+		console.dir(server);
+		console.log("server running on port: " + process.env.PORT || 3000);
+		console.log('opened server on', server.address().address);
 	});
 	
 })();

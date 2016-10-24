@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>logging data</title>
+	<style>	
+		body{
+			margin: 0;
+			padding: 0;
+			outline: 1px solid green;
+		}
+		#tracker{
+			height: 100vh;
+			width: 100%;
+			outline: 3px solid red;		
+		}
+		
+		#output{
+			font-size: 30px;
+			height: 200px;
+			width: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div id="tracker">
+		<textarea id="output"></textarea>
+	</div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		var serverIP = "localhost";
+		var serverPort = "3000";
+		
+		var output = document.getElementById('output');
+		var socket = io.connect('http://' + serverIP + ':' + serverPort);
+		
+		socket.on('dataLogged', function(dataLogged){
+			output.value = dataLogged;
+		});
+		
+		output.value = socket;
+	</script>
+</body>
+</html>

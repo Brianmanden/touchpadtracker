@@ -27,15 +27,15 @@
 	</div>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
-		var serverIP = "192.168.1.122";
+		<!-- var serverIP = "safe-depths-4979.herokuapp.com/"; -->
+		<!-- var serverPort = "80"; -->
+		
+		var serverIP = "localhost";
 		var serverPort = "3000";
+
 		var elem = document.getElementById('tracker');
 		var output = document.getElementById('output');
 		var socket = io.connect('http://' + serverIP + ':' + serverPort);
-		
-		elem.addEventListener('touchclick', function(){
-		
-		});
 		
 		elem.addEventListener('touchmove', function(e){
 			e.preventDefault();
@@ -43,7 +43,8 @@
 				touchX: e.touches[0].pageX,
 				touchY: e.touches[0].pageY
 			};
-			socket.emit('mouseTracked', { trackData: trackData });
+			output.value = trackData.touchX + " - " + trackData.touchY;
+			socket.emit('mouseTracked', { trackData: trackData } );
 		}, false);
 
 		elem.addEventListener('mousemove', function(eventData){
@@ -51,7 +52,8 @@
 				mouseX: eventData.pageX,
 				mouseY: eventData.pageY
 			};
-			socket.emit('mouseTracked', { trackData: trackData });
+			output.value = trackData.mouseX + " - " + trackData.mouseY;
+			socket.emit('mouseTracked', { trackData: trackData } );
 		}, false);	
 	</script>
 </body>
