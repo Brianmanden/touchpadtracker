@@ -32,12 +32,25 @@
 		
 		var output = document.getElementById('output');
 		var socket = io.connect('http://' + serverIP + ':' + serverPort);
-		
+
+		console.dir(socket);
+		/*
+		io.on('connection', function(socket){
+			console.log("-1-");
+			/*socket.on('mouseTracked', function(data){
+				console.dir(data);
+				var res = socket.emit('dataLogged', { hello: 'world'} );
+				//console.log(data);
+			});
+			*/
+		/*});*/
+
 		socket.on('dataLogged', function(dataLogged){
-			output.value = dataLogged;
+			console.log("datalogged");
+			output.value = dataLogged.mouseX;
 		});
 		
-		output.value = socket;
+		//output.value = socket;
 	</script>
 </body>
 </html>

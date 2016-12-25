@@ -38,7 +38,7 @@
 		var socket = io.connect('http://' + serverIP + ':' + serverPort);
 		
 		elem.addEventListener('touchmove', function(e){
-			e.preventDefault();
+			//e.preventDefault();
 			trackData = {
 				touchX: e.touches[0].pageX,
 				touchY: e.touches[0].pageY
@@ -54,7 +54,8 @@
 			};
 			output.value = trackData.mouseX + " - " + trackData.mouseY;
 			socket.emit('mouseTracked', { trackData: trackData } );
-		}, false);	
+		}, false);
+
 	</script>
 </body>
 </html>
