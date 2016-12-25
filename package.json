@@ -10,6 +10,5 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "robotjs": "^0.4.5"
   }
 }

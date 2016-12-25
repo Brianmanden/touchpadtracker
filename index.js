@@ -3,8 +3,6 @@
 	var path = require('path');
 	var server = require('http').Server(app);
 	var io = require('socket.io')(server);
-	var robot = require('robotjs');
-	robot.setMouseDelay(2);
 
 	app.get('/', function(req, res){
 		res.sendFile(path.join(__dirname + '/views/index.html'));
@@ -19,7 +17,6 @@
 		socket.on('mouseTracked', function(data){
 			//var res = socket.emit('dataLogged', { hello: 'world'} );
 			console.dir(data);
-			//robot.moveMouse(data.touchX, data.touchY);
 		});
 	});
 	
