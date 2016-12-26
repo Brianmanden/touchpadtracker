@@ -28,7 +28,7 @@
 		});
 
 		socket.on('pointerMove', function(data){
-			robot.moveMouse(robot.getMousePos().x + data.deltaX, robot.getMousePos().y + data.deltaY);
+			robot.moveMouseSmooth(robot.getMousePos().x + data.deltaX, robot.getMousePos().y + data.deltaY);
 		});
 
 		socket.on('buttonClick', function(data){
@@ -36,6 +36,12 @@
 				centerPointer(hostScreen);
 			}else{
 				robot.mouseClick(data.buttonPress);
+			}
+		});
+
+		socket.on('buttonDblClick', function(data){
+			if(data.buttonPress == 'left'){
+				robot.mouseClick(data.buttonPress, true);
 			}
 		});
 	});
