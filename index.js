@@ -5,7 +5,7 @@
 	var io = require('socket.io')(server);
 	var robot = require('robotjs');
 
-	robot.setMouseDelay(2);
+	robot.setMouseDelay(0);
 
 	app.get('/', function(req, res){
 		res.sendFile(path.join(__dirname + '/views/index.html'));
