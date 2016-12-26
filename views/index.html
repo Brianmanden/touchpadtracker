@@ -6,6 +6,7 @@
 		html, body{
 			height: 100%;
 			margin: 0;
+			overflow-y: hidden;
 			padding: 0;
 			width: 100%;
 			outline: 1px solid green;
@@ -27,8 +28,8 @@
 		}
 		#output{
 			font-size: 30px;
-			height: 200px;
-			width: 200px;
+			height: 500px;
+			width: 500px;
 		}
 	</style>
 </head>
@@ -54,8 +55,10 @@
 		var output = document.getElementById('output');
 		var buttons = document.getElementById('buttons');
 		var socket = io.connect('http://' + serverIP + ':' + serverPort);
+		var prevCoordinates = {};
+		var startTime;
 
-		tracker.addEventListener('touchmove', function(e){
+/*		tracker.addEventListener('touchmove', function(e){
 			pointerPosition = {
 				x: e.touches[0].pageX,
 				y: e.touches[0].pageY
@@ -63,6 +66,23 @@
 			//output.value = pointerPosition.x + " - " + pointerPosition.y;
 			output.value = e.touches[0];
 			socket.emit('pointerPosition', { pointerPosition: pointerPosition } );
+		}, false);*/
+
+		tracker.addEventListener('touchstart', function(e){
+			startTime = new Date().getTime();
+			prevCoordinates.x = Math.round(e.touches[0].pageX);
+			prevCoordinates.y = Math.round(e.touches[0].pageY);
+		}, false);
+
+		tracker.addEventListener('touchend', function(e){
+			var currX = Math.round(e.changedTouches[0].pageX);
+			var currY = Math.round(e.changedTouches[0].pageY);
+			var timeDiff = (new Date().getTime() - startTime) / 100;
+			
+			var timeAdjustedDeltaX = (currX - prevCoordinates.x) / timeDiff;
+			var timeAdjustedDeltaY = (currY - prevCoordinates.y) / timeDiff;
+
+			socket.emit('pointerMove', { "deltaX": timeAdjustedDeltaX, "deltaY": timeAdjustedDeltaY	});
 		}, false);
 
 		buttons.addEventListener('click', function(e){
