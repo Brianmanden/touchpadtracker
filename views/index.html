@@ -18,7 +18,7 @@
 		button{
 			border-radius: 3px;
 			height: 145px;
-			width: 49%;
+			width: 32%;
 		}
 		#tracker{
 			height: 80vh;
@@ -38,12 +38,17 @@
 	</div>
 	<div id="buttons">
 		<button value="left">L</button>
+		<button value="center">X</button>
 		<button value="right">R</button>
 	</div>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		var serverIP = location.hostname;
 		var serverPort = location.port;
+
+		var thing = name;
+
+		console.log(thing);
 
 		var tracker = document.getElementById('tracker');
 		var output = document.getElementById('output');
