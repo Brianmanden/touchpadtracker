@@ -17,15 +17,9 @@
 	});
 	
 	io.on('connection', function(socket){
-		console.log("connected");
-		socket.on('mouseTracked', function(data){
-			//var res = socket.emit('dataLogged', { hello: 'world'} );
-			console.dir(data);
-			var x = data.trackData.touchX;
-			var y = data.trackData.touchY;
-			console.log("console: " + x + ", " + y);
-			robot.moveMouse(x, y);
-
+		socket.on('pointerPosition', function(data){
+			console.log(data.pointerPosition.x + ", " + data.pointerPosition.y);
+			robot.moveMouse(data.pointerPosition.x, data.pointerPosition.y);
 		});
 	});
 	

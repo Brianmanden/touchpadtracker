@@ -30,31 +30,36 @@
 		<!-- var serverIP = "safe-depths-4979.herokuapp.com/"; -->
 		<!-- var serverPort = "80"; -->
 		
-		var serverIP = "0.0.0.0";
-		var serverPort = "3000";
+		var serverIP = location.hostname;
+		var serverPort = location.port;
 
 		var elem = document.getElementById('tracker');
 		var output = document.getElementById('output');
 		var socket = io.connect('http://' + serverIP + ':' + serverPort);
-		
+
 		elem.addEventListener('touchmove', function(e){
-			//e.preventDefault();
-			trackData = {
-				touchX: e.touches[0].pageX,
-				touchY: e.touches[0].pageY
+			pointerPosition = {
+				/*x: e.touches[0].pageX,
+				y: e.touches[0].pageY*/
+				x: e.touches[0].screenX,
+				y: e.touches[0].screenY
 			};
-			output.value = trackData.touchX + " - " + trackData.touchY;
-			socket.emit('mouseTracked', { trackData: trackData } );
+			//output.value = pointerPosition.x + " - " + pointerPosition.y;
+			output.value = e.touches[0];
+			socket.emit('pointerPosition', { pointerPosition: pointerPosition } );
 		}, false);
 
+		// only for debugging
+		/*
 		elem.addEventListener('mousemove', function(eventData){
-			trackData = {
-				mouseX: eventData.pageX,
-				mouseY: eventData.pageY
+			pointerPosition = {
+				x: eventData.pageX,
+				y: eventData.pageY
 			};
-			output.value = trackData.mouseX + " - " + trackData.mouseY;
-			socket.emit('mouseTracked', { trackData: trackData } );
+			output.value = pointerPosition.x + " - " + pointerPosition.y;
+			socket.emit('pointerPosition', { pointerPosition: pointerPosition } );
 		}, false);
+		*/
 
 	</script>
 </body>

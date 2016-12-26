@@ -9,6 +9,8 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
+    "robotjs": "^0.4.5"
   }
 }
