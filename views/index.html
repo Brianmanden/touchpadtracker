@@ -3,17 +3,28 @@
 <head>
 	<title>mouse tracking</title>
 	<style>	
-		body{
+		html, body{
+			height: 100%;
 			margin: 0;
 			padding: 0;
+			width: 100%;
 			outline: 1px solid green;
 		}
+		#buttons{
+			display: inline;
+			height: 20vh;
+		}
+
+		button{
+			border-radius: 3px;
+			height: 145px;
+			width: 49%;
+		}
 		#tracker{
-			height: 100vh;
+			height: 80vh;
 			width: 100%;
 			outline: 3px solid red;		
 		}
-		
 		#output{
 			font-size: 30px;
 			height: 200px;
@@ -25,29 +36,34 @@
 	<div id="tracker">
 		<textarea id="output"></textarea>
 	</div>
+	<div id="buttons">
+		<button value="left">L</button>
+		<button value="right">R</button>
+	</div>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
-		<!-- var serverIP = "safe-depths-4979.herokuapp.com/"; -->
-		<!-- var serverPort = "80"; -->
-		
 		var serverIP = location.hostname;
 		var serverPort = location.port;
 
-		var elem = document.getElementById('tracker');
+		var tracker = document.getElementById('tracker');
 		var output = document.getElementById('output');
+		var buttons = document.getElementById('buttons');
 		var socket = io.connect('http://' + serverIP + ':' + serverPort);
 
-		elem.addEventListener('touchmove', function(e){
+		tracker.addEventListener('touchmove', function(e){
 			pointerPosition = {
-				/*x: e.touches[0].pageX,
-				y: e.touches[0].pageY*/
-				x: e.touches[0].screenX,
-				y: e.touches[0].screenY
+				x: e.touches[0].pageX,
+				y: e.touches[0].pageY
 			};
 			//output.value = pointerPosition.x + " - " + pointerPosition.y;
 			output.value = e.touches[0];
 			socket.emit('pointerPosition', { pointerPosition: pointerPosition } );
 		}, false);
+
+		buttons.addEventListener('click', function(e){
+			console.dir(e.target.value);
+			socket.emit('buttonClick', { buttonPress: e.target.value });
+		});
 
 		// only for debugging
 		/*

@@ -7,7 +7,6 @@
 
 	robot.setMouseDelay(2);
 
-
 	app.get('/', function(req, res){
 		res.sendFile(path.join(__dirname + '/views/index.html'));
 	});
@@ -18,13 +17,16 @@
 	
 	io.on('connection', function(socket){
 		socket.on('pointerPosition', function(data){
-			console.log(data.pointerPosition.x + ", " + data.pointerPosition.y);
 			robot.moveMouse(data.pointerPosition.x, data.pointerPosition.y);
+		});
+
+		socket.on('buttonClick', function(data){
+			robot.mouseClick(data.buttonPress);
 		});
 	});
 	
 	server.listen(process.env.PORT || 3000, function(){
-		console.log("server IP address: " + server.address());
+		console.log('server IP address: ' + server.address());
 	});
 	
 })();
