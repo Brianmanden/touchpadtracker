@@ -19,18 +19,21 @@
 
 		button{
 			border-radius: 3px;
-			height: 145px;
+			height: 70px;
 			width: 32%;
 		}
 		#tracker{
-			height: 80vh;
-			width: 100%;
+			height: 85vh;
+			width: 99%;
 			outline: 3px solid red;		
 		}
 		#output{
 			font-size: 30px;
-			height: 90%;
-			width: 90%;
+			height: 95%;
+			width: 95%;
+		}
+		#cmdForm{
+			margin: 20px;
 		}
 	</style>
 </head>
@@ -40,25 +43,28 @@
 	</div>
 	<div id="buttons">
 		<button value="left">L</button>
-		<button value="center">X</button>
+		<button value="center">Center</button>
 		<button value="right">R</button>
 	</div>
+	<div id="command">
+		<form id="cmdForm">
+			<input type="text" id="cmdField" placeholder="command" />
+			<input type="submit" id="submit" value="Run" />
+		</form>
+	</div>
 	<script src="/socket.io/socket.io.js"></script>
+	<script src="/test.js"></script>
 	<script>
 		var serverIP = location.hostname;
 		var serverPort = location.port;
-
-		var thing = name;
-
-		console.log(thing);
-
+		var socket = io.connect('http://' + serverIP + ':' + serverPort);
+		var prevCoordinates = {};
+		var touchStartTime;		
 		var tracker = document.getElementById('tracker');
 		var output = document.getElementById('output');
 		var buttons = document.getElementById('buttons');
-		var socket = io.connect('http://' + serverIP + ':' + serverPort);
-		var prevCoordinates = {};
-		var touchStartTime;
-		var clickStartTime;
+		var cmdForm = document.getElementById('cmdForm');
+		var cmdField = document.getElementById('cmdField');
 
 		tracker.addEventListener('touchstart', function(e){
 			touchStartTime = new Date().getTime();
@@ -69,7 +75,7 @@
 		tracker.addEventListener('touchend', function(e){
 			var currX = Math.round(e.changedTouches[0].pageX);
 			var currY = Math.round(e.changedTouches[0].pageY);
-			var timeDiff = (new Date().getTime() - touchStartTime) / 100;
+			var timeDiff = (new Date().getTime() - touchStartTime) / 125;
 			
 			var timeAdjustedDeltaX = (currX - prevCoordinates.x) / timeDiff;
 			var timeAdjustedDeltaY = (currY - prevCoordinates.y) / timeDiff;
@@ -78,33 +84,17 @@
 		}, false);
 
 		buttons.addEventListener('click', function(e){
-			var timeDiff = new Date().getTime() - clickStartTime;
-			output.value += "timeDiff: " + timeDiff;
-			/*if(timeDiff){
-
-			}else{
-
-			}*/
-
 			socket.emit('buttonClick', { buttonPress: e.target.value });
 		});
 
 		buttons.addEventListener('dblclick', function(e){
-			output.value = "virker ?";
+			socket.emit('buttonDblClick', { buttonPress: e.target.value });
 		});
 
-		// only for debugging
-		/*
-		elem.addEventListener('mousemove', function(eventData){
-			pointerPosition = {
-				x: eventData.pageX,
-				y: eventData.pageY
-			};
-			output.value = pointerPosition.x + " - " + pointerPosition.y;
-			socket.emit('pointerPosition', { pointerPosition: pointerPosition } );
-		}, false);
-		*/
-
+		cmdForm.addEventListener('submit', function(e){
+			e.preventDefault();
+			socket.emit('cmdSend', { 'cmd': cmdField.value });
+		});
 	</script>
 </body>
 </html>

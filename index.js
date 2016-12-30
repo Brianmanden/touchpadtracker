@@ -7,12 +7,13 @@
 	var server = require('http').Server(app);
 	var io = require('socket.io')(server);
 	var robot = require('robotjs');
+	var exec = require('child_process').exec;
 	var hostScreen = robot.getScreenSize();
 
 	app.set('view options', { layout: false } );
 	app.use(express.static( __dirname + '/views' ) );
 
-	robot.setMouseDelay(0);
+	robot.setMouseDelay(1);
 
 	app.get('/', function(req, res){
 		res.render('/views/index');
@@ -43,6 +44,11 @@
 			if(data.buttonPress == 'left'){
 				robot.mouseClick(data.buttonPress, true);
 			}
+		});
+
+		socket.on('cmdSend', function(data){
+			console.log(data.cmd);
+			exec(data.cmd);
 		});
 	});
 
