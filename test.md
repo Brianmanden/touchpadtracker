@@ -1,3 +1,5 @@
 Kapitel 2
 
-Dagen gik .. 
+Dagen gik og natten faldt på ...
+
+Senere ...
