@@ -1,0 +1,29 @@
+html, body{
+	height: 100%;
+	margin: 0;
+	overflow-y: hidden;
+	padding: 0;
+	width: 100%;
+	outline: 1px solid green;
+}
+#buttons{
+	display: inline;
+}
+button{
+	border-radius: 3px;
+	height: 70px;
+	width: 32%;
+}
+#tracker{
+	height: 80%;
+	width: 99%;
+	outline: 3px solid red;		
+}
+#output{
+	font-size: 10px;
+	height: 5%;
+	width: 95%;
+}
+.hide{
+	display: none;
+}
