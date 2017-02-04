@@ -35,9 +35,6 @@
 		<canvas></canvas>
 	</div>
 	<div id="buttons">
-		<!--
-		<button value="left">L</button>
-		-->
 		<button value="center">Center</button>
 		<button value="right">R</button>
 	</div>
@@ -45,7 +42,8 @@
 	<script>
 		var serverIP = location.hostname;
 		var serverPort = location.port;
-		var socket = io.connect('http://' + serverIP + ':' + serverPort);
+		//var socket = io.connect('http://' + serverIP + ':' + serverPort);
+		var socket = io();
 		var prevCoordinates = {};
 		var touchStartTime;		
 		var tracker = document.getElementById('tracker');

@@ -20,20 +20,17 @@
 	});
 
 	io.on('connection', function(socket){
-		console.log('Connection');
-		centerPointer(hostScreen);
-
-		socket.on('pointerPosition', function(data){
-			robot.moveMouse(data.pointerPosition.x, data.pointerPosition.y);
-		});
+		console.log('Connected');
 
 		socket.on('pointerMove', function(data){
 			const moveToPosX = robot.getMousePos().x + data.deltaX < 0 ? 0 : robot.getMousePos().x + data.deltaX;
 			const moveToPosY = robot.getMousePos().y + data.deltaY < 0 ? 0 : robot.getMousePos().y + data.deltaY;
+			console.log('Moving mouse to: ', moveToPosX, moveToPosY);
 			robot.moveMouseSmooth(moveToPosX, moveToPosY);
 		});
 
 		socket.on('buttonClick', function(data){
+			console.log('Button clicked: ', data.buttonPress);
 			if(data.buttonPress == 'center'){
 				centerPointer(hostScreen);
 			}else{
@@ -42,14 +39,19 @@
 		});
 
 		socket.on('buttonDblClick', function(data){
+			console.log('Button double-clicked: ', data.buttonPress);
 			if(data.buttonPress == 'left'){
 				robot.mouseClick(data.buttonPress, true);
 			}
 		});
+		
+		socket.on("disconnect", function () {
+			console.log("Disconnected");
+		});
 	});
 
 	function centerPointer(hostScreen){
-		console.log('Centering mouse on screen');
+		console.log('Centering mouse');
 		robot.moveMouse(hostScreen.width/2, hostScreen.height/2);
 	}
 
