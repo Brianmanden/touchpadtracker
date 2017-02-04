@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>mouse tracking</title>
-	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<style>	
 		html, body{
 			height: 100%;
@@ -10,50 +10,38 @@
 			overflow-y: hidden;
 			padding: 0;
 			width: 100%;
-			outline: 1px solid green;
 		}
 		#buttons{
 			display: inline;
 			height: 20vh;
 		}
-
 		button{
 			border-radius: 3px;
 			height: 70px;
-			width: 32%;
+			width: 49%;
 		}
 		#tracker{
 			height: 85vh;
 			width: 99%;
-			outline: 3px solid red;		
 		}
-		#output{
-			font-size: 30px;
+		canvas{
 			height: 95%;
 			width: 95%;
-		}
-		#cmdForm{
-			margin: 20px;
 		}
 	</style>
 </head>
 <body>
 	<div id="tracker">
-		<textarea id="output"></textarea>
+		<canvas></canvas>
 	</div>
 	<div id="buttons">
+		<!--
 		<button value="left">L</button>
+		-->
 		<button value="center">Center</button>
 		<button value="right">R</button>
 	</div>
-	<div id="command">
-		<form id="cmdForm">
-			<input type="text" id="cmdField" placeholder="command" />
-			<input type="submit" id="submit" value="Run" />
-		</form>
-	</div>
 	<script src="/socket.io/socket.io.js"></script>
-	<script src="/test.js"></script>
 	<script>
 		var serverIP = location.hostname;
 		var serverPort = location.port;
@@ -63,8 +51,6 @@
 		var tracker = document.getElementById('tracker');
 		var output = document.getElementById('output');
 		var buttons = document.getElementById('buttons');
-		var cmdForm = document.getElementById('cmdForm');
-		var cmdField = document.getElementById('cmdField');
 
 		tracker.addEventListener('touchstart', function(e){
 			touchStartTime = new Date().getTime();
@@ -82,19 +68,19 @@
 
 			socket.emit('pointerMove', { "deltaX": timeAdjustedDeltaX, "deltaY": timeAdjustedDeltaY	});
 		}, false);
+		
+		tracker.addEventListener('click', function(e){
+			socket.emit('buttonClick', { buttonPress: 'left' });
+		});		
 
+		tracker.addEventListener('dblclick', function(e){
+			socket.emit('buttonDblClick', { buttonPress: 'left' });
+		});
+		
 		buttons.addEventListener('click', function(e){
 			socket.emit('buttonClick', { buttonPress: e.target.value });
 		});
 
-		buttons.addEventListener('dblclick', function(e){
-			socket.emit('buttonDblClick', { buttonPress: e.target.value });
-		});
-
-		cmdForm.addEventListener('submit', function(e){
-			e.preventDefault();
-			socket.emit('cmdSend', { 'cmd': cmdField.value });
-		});
 	</script>
 </body>
 </html>

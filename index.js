@@ -20,8 +20,7 @@
 	});
 
 	io.on('connection', function(socket){
-		console.log('connection');
-		console.log('centering mouse on screen');
+		console.log('Connection');
 		centerPointer(hostScreen);
 
 		socket.on('pointerPosition', function(data){
@@ -29,7 +28,9 @@
 		});
 
 		socket.on('pointerMove', function(data){
-			robot.moveMouseSmooth(robot.getMousePos().x + data.deltaX, robot.getMousePos().y + data.deltaY);
+			const moveToPosX = robot.getMousePos().x + data.deltaX < 0 ? 0 : robot.getMousePos().x + data.deltaX;
+			const moveToPosY = robot.getMousePos().y + data.deltaY < 0 ? 0 : robot.getMousePos().y + data.deltaY;
+			robot.moveMouseSmooth(moveToPosX, moveToPosY);
 		});
 
 		socket.on('buttonClick', function(data){
@@ -45,20 +46,15 @@
 				robot.mouseClick(data.buttonPress, true);
 			}
 		});
-
-		socket.on('cmdSend', function(data){
-			console.log(data.cmd);
-			exec(data.cmd);
-		});
 	});
 
 	function centerPointer(hostScreen){
+		console.log('Centering mouse on screen');
 		robot.moveMouse(hostScreen.width/2, hostScreen.height/2);
 	}
 
 	server.listen(process.env.PORT || 3000, function(){
-		console.log('Server IP address: ' + server.address());
-		console.log();
+		console.log('Server ready');
 	});
 	
 })();
