@@ -13,6 +13,8 @@
 
 	app.set('view options', { layout: false } );
 	app.use(express.static( __dirname + '/views' ) );
+	app.use(express.static( __dirname + '/styles' ) );
+	app.use(express.static( __dirname + '/scripts' ) );
 
 	robot.setMouseDelay(1);
 

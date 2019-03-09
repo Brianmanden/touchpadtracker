@@ -4,10 +4,10 @@ html, body{
 	overflow-y: hidden;
 	padding: 0;
 	width: 100%;
-	outline: 1px solid green;
 }
 #buttons{
 	display: inline;
+	height: 20vh;
 }
 button{
 	border-radius: 3px;
@@ -17,7 +17,6 @@ button{
 #tracker{
 	height: 80%;
 	width: 99%;
-	outline: 3px solid red;		
 }
 #output{
 	font-size: 10px;
@@ -26,4 +25,8 @@ button{
 }
 .hide{
 	display: none;
+}
+canvas{
+	height: 95%;
+	width: 95%;
 }
