@@ -28,16 +28,26 @@
 		socket.on('pointerMove', function(data){
 			const moveToPosX = robot.getMousePos().x + data.deltaX < 0 ? 0 : robot.getMousePos().x + data.deltaX;
 			const moveToPosY = robot.getMousePos().y + data.deltaY < 0 ? 0 : robot.getMousePos().y + data.deltaY;
-			console.log('Moving mouse to: ', moveToPosX, moveToPosY);
+			console.log('mouse: move to -', moveToPosX, moveToPosY);
 			robot.moveMouseSmooth(moveToPosX, moveToPosY);
 		});
 
 		socket.on('buttonClick', function(data){
 			console.log('Button clicked: ', data.buttonPress);
-			if(data.buttonPress == 'center'){
-				centerPointer(hostScreen);
-			}else{
-				robot.mouseClick(data.buttonPress);
+			switch (data.buttonPress){
+				case 'center':
+					console.log('mouse: centering');
+					centerPointer(hostScreen);
+				break;
+
+				case 'right':
+					console.log('mouse: right');
+					robot.mouseClick(data.buttonPress);
+				break;
+
+				case 'commands':
+					console.log("commands");
+				break;
 			}
 		});
 
@@ -54,7 +64,6 @@
 	});
 
 	function centerPointer(hostScreen){
-		console.log('Centering mouse');
 		robot.moveMouse(hostScreen.width/2, hostScreen.height/2);
     }
 
