@@ -17,6 +17,7 @@
 * Code move of mouse part - maybe use fancy RobotJS ? https://github.com/octalmage/robotjs (check)
 * Refactor eventlisteners for mousemove and touchmove - one listener - more generic (check)
 * Switch over to use relative movement instead of absolute positioning. (check)
+* Use JSON from: https://tpt-endpoints.herokuapp.com/api/endpoints to generate command list
 
 #KNOWN ISSUES
 * Does not work on the secondary screen on the server side ???
