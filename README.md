@@ -19,4 +19,4 @@
 * Switch over to use relative movement instead of absolute positioning. (check)
 
 #KNOWN ISSUES
-* Does not work on the secondary screen of the server side ???
+* Does not work on the secondary screen on the server side ???
