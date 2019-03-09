@@ -4,7 +4,8 @@
 	var express = require('express');
 	var app = express();
 	var path = require('path');
-	var server = require('http').Server(app);
+    var server = require('http').Server(app);
+    var serverPort = process.env.PORT || 3000;
 	var io = require('socket.io')(server);
 	var robot = require('robotjs');
 	var exec = require('child_process').exec;
@@ -53,10 +54,11 @@
 	function centerPointer(hostScreen){
 		console.log('Centering mouse');
 		robot.moveMouse(hostScreen.width/2, hostScreen.height/2);
-	}
+    }
 
-	server.listen(process.env.PORT || 3000, function(){
-		console.log('Server ready');
+    server.listen(serverPort, function () {
+        console.log('Server ready');
+        console.log('Connect at http://localhost:' + serverPort);
 	});
 	
 })();

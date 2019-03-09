@@ -17,3 +17,6 @@
 * Code move of mouse part - maybe use fancy RobotJS ? https://github.com/octalmage/robotjs (check)
 * Refactor eventlisteners for mousemove and touchmove - one listener - more generic (check)
 * Switch over to use relative movement instead of absolute positioning. (check)
+
+#KNOWN ISSUES
+* Does not work on the secondary screen of the server side ???
